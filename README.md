@@ -1,2 +1,3 @@
 # Egg-Timer
-Simple Timer in Flutter
+Egg Timer is a simple timer app built in Flutter using Dart.
+
