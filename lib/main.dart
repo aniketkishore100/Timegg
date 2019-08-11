@@ -1,3 +1,5 @@
+import 'package:egg_timer/egg_timer_display.dart';
+import 'package:egg_timer/flat_button_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttery/animations.dart';
 import 'package:fluttery/framing.dart';
@@ -19,24 +21,12 @@ class MyApp extends StatelessWidget {
         body: Center(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 30.0),
-                child: Text(
-                  '15:23',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'BebasNeue',
-                    fontSize: 100.0,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.0,
-                   ),
-                ),
-              ),
+              EggTimerTimeDisplay(),
+              
               RandomColorBlock(
                 width: double.infinity,
                 child: Padding(
-                  padding: EdgeInsets.all(30.0),
+                  padding: EdgeInsets.only(left:30.0,right: 30.0),
                   child: AspectRatio(
                     aspectRatio: 1.0,
                     child: RandomColorBlock(
@@ -50,10 +40,7 @@ class MyApp extends StatelessWidget {
                 width: double.infinity,
                 height: 50.0,
               ),
-              RandomColorBlock(
-                width: double.infinity,
-                height: 50.0,
-              ),
+              EggTimerButton(),
             ]
           ),
         ),
