@@ -1,3 +1,4 @@
+import 'package:egg_timer/egg-timer-controls.dart';
 import 'package:egg_timer/egg_timer_display.dart';
 import 'package:egg_timer/flat_button_timer.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
             children: [
               EggTimerTimeDisplay(),
               
-              RandomColorBlock(
+              Container(
                 width: double.infinity,
                 child: Padding(
                   padding: EdgeInsets.only(left:30.0,right: 30.0),
@@ -36,11 +37,7 @@ class MyApp extends StatelessWidget {
                 ),
               ),
               Expanded(child: Container()),
-              RandomColorBlock(
-                width: double.infinity,
-                height: 50.0,
-              ),
-              EggTimerButton(),
+            EggTimerControls(),
             ]
           ),
         ),
