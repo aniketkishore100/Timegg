@@ -3,11 +3,15 @@ import 'dart:async';
 class EggTimer {
   EggTimerState state = EggTimerState.ready;
   final Duration maxTime;
+  final Function onTimerUpdate;
   final Stopwatch stopwatch = new Stopwatch();
   Duration _currentTime = const Duration(seconds: 0);
   Duration lastStartTime = const Duration(seconds: 0);
 
-  EggTimer({this.maxTime});
+  EggTimer({
+    this.maxTime,
+    this.onTimerUpdate,
+  });
 
   get currentTime {
     return _currentTime;
@@ -35,6 +39,9 @@ class EggTimer {
       Timer(Duration(seconds: 1), _tick);
     } else {
       state = EggTimerState.ready;
+    }
+    if (null != onTimerUpdate) {
+      onTimerUpdate();
     }
   }
 }

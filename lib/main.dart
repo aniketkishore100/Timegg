@@ -20,8 +20,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final EggTimer eggTimer;
-  _MyAppState() : eggTimer = new EggTimer(maxTime: const Duration(minutes: 35));
+  EggTimer eggTimer;
+  _MyAppState() {
+    eggTimer = new EggTimer(
+      maxTime: const Duration(minutes: 10),
+      onTimerUpdate: _onTimerUpdate,
+    );
+  }
 
   _onTimeSelected(Duration newTime) {
     setState(() {
@@ -34,6 +39,10 @@ class _MyAppState extends State<MyApp> {
       eggTimer.currentTime = newTime;
       eggTimer.resume();
     });
+  }
+
+  _onTimerUpdate() {
+    setState(() {});
   }
 
   @override
