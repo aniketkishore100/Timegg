@@ -25,22 +25,68 @@ class EggTimer {
   }
 
   resume() {
-    state = EggTimerState.running;
+    if (state != EggTimerState.running) {
+      if (state == EggTimerState.ready) {
+        _currentTime = _roundToTheNearestMinute(_currentTime);
+        lastStartTime = _currentTime;
+      }
 
-    stopwatch.start();
-    _tick();
+      state = EggTimerState.running;
+
+      stopwatch.start();
+      _tick();
+    }
   }
 
-  pause() {}
+  _roundToTheNearestMinute(duration) {
+    return Duration(minutes: (duration.inSeconds / 60).round());
+  }
+
+  pause() {
+    if (state == EggTimerState.running) {
+      state = EggTimerState.paused;
+      stopwatch.stop();
+
+      if (null != onTimerUpdate) {
+        onTimerUpdate();
+      }
+    }
+  }
+
+  restart() {
+    if (state == EggTimerState.paused) {
+      state = EggTimerState.running;
+      _currentTime = lastStartTime;
+      stopwatch.reset();
+      stopwatch.start();
+
+      _tick();
+    }
+  }
+
+  reset() {
+    if (state == EggTimerState.paused) {
+      state = EggTimerState.ready;
+      _currentTime = const Duration(seconds: 0);
+      lastStartTime = _currentTime;
+      stopwatch.reset();
+
+      if (null != onTimerUpdate) {
+        onTimerUpdate();
+      }
+    }
+  }
+
   _tick() {
-    print("currentTime:${_currentTime.inSeconds}");
+    print('Current time: ${_currentTime.inSeconds}');
     _currentTime = lastStartTime - stopwatch.elapsed;
 
     if (_currentTime.inSeconds > 0) {
-      Timer(Duration(seconds: 1), _tick);
+      Timer(const Duration(seconds: 1), _tick);
     } else {
       state = EggTimerState.ready;
     }
+
     if (null != onTimerUpdate) {
       onTimerUpdate();
     }

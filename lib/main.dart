@@ -2,12 +2,7 @@ import 'package:egg_timer/egg-timer-controls.dart';
 import 'package:egg_timer/egg-timer.dart';
 import 'package:egg_timer/egg_timer_dial.dart';
 import 'package:egg_timer/egg_timer_display.dart';
-import 'package:egg_timer/flat_button_timer.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttery/animations.dart';
-import 'package:fluttery/framing.dart';
-import 'package:fluttery/gestures.dart';
-import 'package:fluttery/layout.dart';
 
 final Color GRADIENT_TOP = const Color(0xfff5f5f5);
 final Color GRADIENT_BOTTOM = const Color(0xffe8e8e8);
@@ -76,7 +71,21 @@ class _MyAppState extends State<MyApp> {
                   onDialStopTurning: _onDialStopTurning,
                 ),
                 Expanded(child: Container()),
-                EggTimerControls(),
+                EggTimerControls(
+                  eggTimerState: eggTimer.state,
+                  onPause: () {
+                    setState(() => eggTimer.pause());
+                  },
+                  onResume: () {
+                    setState(() => eggTimer.resume());
+                  },
+                  onRestart: () {
+                    setState(() => eggTimer.restart());
+                  },
+                  onReset: () {
+                    setState(() => eggTimer.reset());
+                  },
+                ),
               ]),
             ),
           ),

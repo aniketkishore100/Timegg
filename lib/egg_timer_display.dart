@@ -16,9 +16,38 @@ class EggTimerTimeDisplay extends StatefulWidget {
   _EggTimerTimeDisplayState createState() => _EggTimerTimeDisplayState();
 }
 
-class _EggTimerTimeDisplayState extends State<EggTimerTimeDisplay> {
+class _EggTimerTimeDisplayState extends State<EggTimerTimeDisplay>
+    with TickerProviderStateMixin {
   final DateFormat selectionTimeFormat = DateFormat('mm');
   final DateFormat countdownTimeFormat = DateFormat('mm:ss');
+
+  AnimationController selectionTimeSlideController;
+  AnimationController countdownTimeFadeController;
+
+  @override
+  void initState() {
+    super.initState();
+    selectionTimeSlideController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 150))
+      ..addListener(() {
+        setState(() {});
+      });
+
+    countdownTimeFadeController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 150))
+      ..addListener(() {
+        setState(() {});
+      });
+
+    countdownTimeFadeController.value = 1.0;
+  }
+
+  @override
+  void dispose() {
+    selectionTimeSlideController.dispose();
+    countdownTimeFadeController.dispose();
+    super.dispose();
+  }
 
   get formattedSelectionTime {
     DateTime dateTime = DateTime(
@@ -34,6 +63,13 @@ class _EggTimerTimeDisplayState extends State<EggTimerTimeDisplay> {
 
   @override
   Widget build(BuildContext context) {
+     if (widget.eggTimerState == EggTimerState.ready) {
+      selectionTimeSlideController.reverse();
+      countdownTimeFadeController.forward();
+    } else {
+      selectionTimeSlideController.forward();
+      countdownTimeFadeController.reverse();
+    }
     return Padding(
       padding: const EdgeInsets.only(top: 30.0),
       child: Stack(
